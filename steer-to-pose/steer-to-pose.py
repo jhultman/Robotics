@@ -12,9 +12,8 @@ def wrap_to_pi(theta):
     return (theta + pi) % (2 * pi) - pi
 
 
-def create_triangle(pose, r=0.1):
-    xy = pose[:2] 
-    theta = pose[2] - pi / 2
+def create_triangle(xy, theta, r=0.1):
+    theta = theta - pi / 2
     kwargs = dict(xy=xy, numVertices=3, radius=r, orientation=theta)
     return RegularPolygon(**kwargs)
 
@@ -24,7 +23,7 @@ class Robot(object):
     
     def __init__(self, init_pose=np.zeros(3)):
         self.pose = init_pose 
-        self.patch = create_triangle(init_pose) 
+        self.patch = create_triangle(init_pose[:2], init_pose[2]) 
    
     def update_pose(self, v, w, dt=0.1):
         dx = dt * v * cos(self.pose[2])
@@ -89,7 +88,7 @@ class RobotPlotter:
         
         self.goal_pose = goal_pose
         self.robot_patch = robot.patch
-        self.goal_patch = create_triangle(goal_pose)
+        self.goal_patch = create_triangle(goal_pose[:2], goal_pose[2])
         
         self.fig, self.ax = plt.subplots()
 
@@ -128,8 +127,8 @@ def main():
 
     robot = Robot(init_pose)
     controller = RobotControl(goal_pose)
-    plotter = RobotPlotter(robot, controller, goal_pose)
 
+    plotter = RobotPlotter(robot, controller, goal_pose)
     plotter.animate(save_gif=True)
 
 
