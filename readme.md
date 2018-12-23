@@ -9,3 +9,9 @@ space and, rolling our own Dijsktra implementation for planning in voxel space, 
 a shortest path from start to goal:
 
 ![Configuration space](/piano-mover/cspace.gif)
+
+
+In *bg_subtraction* we try out a simple mixture-of-gaussian background
+subtraction algorithm from the opencv library.
+
+![Background subtraction](/bg_subtraction/fg.gif)
